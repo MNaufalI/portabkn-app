@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use InvalidArgumentException;
 
 class User extends Authenticatable
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'nik_encrypted',
+        'role_id',
     ];
     protected $hidden = [
         'password',
@@ -66,5 +68,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class, 'event_registrations')
             ->withPivot(['is_attended', 'attended_at'])
             ->withTimestamps();
+    }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function hasRole(string $roleName): bool
+    {
+        return $this->role?->name === $roleName;
     }
 }

@@ -6,8 +6,11 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Throwable;
 
 class ProfileController extends Controller
 {
@@ -26,15 +29,25 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        try{
+            $request->user()->fill($request->validated());
+    
+            if ($request->user()->isDirty('email')) {
+                $request->user()->email_verified_at = null;
+            }
+    
+            if ($request->has('nik')) {
+                $request->user()->nik_encrypted = Crypt::encryptString($request->nik);
+            }
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $request->user()->save();
+    
+            return Redirect::route('profile.edit')->with('status', 'profile-updated');
+
+        } catch (Throwable $e) {
+            Log::error('Error updating profile: ' . $e->getMessage());
+            return Redirect::route('profile.edit')->withError(['error' => 'An error occurred while updating the profile. Please try again.']);
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**

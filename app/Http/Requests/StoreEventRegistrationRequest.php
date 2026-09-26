@@ -32,6 +32,8 @@ class StoreEventRegistrationRequest extends FormRequest
         return [
             'event_id.required' => 'The event ID is required.',
             'event_id.exists' => 'Event not found.',
+            'nik.required' => 'The NIK is required.',
+            'nik.digits_between' => 'The NIK must be between 10 and 16 digits.',
         ];
     }
 }
