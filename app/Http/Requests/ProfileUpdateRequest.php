@@ -26,7 +26,7 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
-            'nik' => ['required', 'string', 'digits_between:10, 16'],
+            'nik' => ['required', 'string', 'digits_between:10,16'],
         ];
     }
 }

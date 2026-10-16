@@ -25,7 +25,7 @@
 
         <div>
             <x-input-label for="nik" :value="__('NIK / NIM / NIDN (10-16 Digit)')" />
-            <x-text-input id="nik" name="nik" type="text" class="mt-1 block w-full" :value="old('nik')" required minlength="10" maxlength="16" autocomplete="off" />
+            <x-text-input id="nik" name="nik" type="text" class="mt-1 block w-full" :value="old('nik', $user->nik)" required minlength="10" maxlength="16" autocomplete="off" />
             <x-input-error class="mt-2" :messages="$errors->get('nik')" />
             <p class="text-sm mt-1 text-gray-500">Identity number will be encrypted in the government system.</p>
         </div>

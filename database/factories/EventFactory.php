@@ -26,6 +26,7 @@ class EventFactory extends Factory
         return [
             'title' => 'Webinar BKN: ' . $this->faker->sentence(3),
             'description' => $this->faker->paragraph(2),
+            'capacity' => $this->faker->numberBetween(30, 100),
             'live_token' => Str::random(8),
             'start_time' => $startTime,
             'end_time' => $endTime,

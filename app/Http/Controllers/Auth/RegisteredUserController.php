@@ -36,15 +36,18 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'nik' => ['required', 'string', 'digits_between:10, 16']
+            'nik' => ['required', 'string', 'digits_between:10,16']
         ]);
 
         try {
+            $studentRole = \App\Models\Role::where('name', 'student')->first();
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'nik_encrypted' => Crypt::encryptString($request->nik),
+                'role_id' => $studentRole?->id,
             ]);
             event(new Registered($user));
     

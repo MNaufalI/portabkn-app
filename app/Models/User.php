@@ -66,8 +66,13 @@ class User extends Authenticatable
     public function registeredEvents(): BelongsToMany
     {
         return $this->belongsToMany(Event::class, 'event_registrations')
-            ->withPivot(['is_attended', 'attended_at'])
+            ->withPivot(['is_attended', 'attended_at', 'checked_in_at', 'checked_out_at'])
             ->withTimestamps();
+    }
+
+    public function tickets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Ticket::class);
     }
 
     public function role(): BelongsTo

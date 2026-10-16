@@ -25,3 +25,13 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+
+# AI tooling (Laravel Boost)
+/.claude/
+/.mcp.json
+/boost.json
+/CLAUDE.md
+
+# Debugbar
+/storage/debugbar

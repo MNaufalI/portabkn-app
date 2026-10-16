@@ -20,7 +20,7 @@ class PdfGeneratorService
     {
         try {
             // 1. Identity Asset
-            $fileName = "certificates/{event->id}_{$user->id}.pdf";
+            $fileName = "certificates/{$event->id}_{$user->id}.pdf";
 
             //2. 
             if (Storage::disk('public')->exists($fileName)) {
